@@ -45,17 +45,19 @@ namespace UDA_Status_PROJECT
         // appena cambia il contatore viene risettato a 0 ed il ciclo ricomincia.
         public async void New_Status_UDA(object source, ElapsedEventArgs e)
         {  
-            string get_status_uda = "https://www.sagosoft.it/_API_/cpim/luda/www/luda_20200901_0900//api/uda/get/?i=" + UDA_index1;  // url per ottenere lo stato dell'UDA       
+            string get_status_uda = "https://www.sagosoft.it/_API_/cpim/luda/www/luda_20210111_1500//api/uda/get/?i=" + UDA_index1;  // url per ottenere lo stato dell'UDA      
+            string get_status_app = "https://www.sagosoft.it/_API_/cpim/luda/www/luda_20210111_1500//api/app/get/?i=" + UDA_index1;
             try
             {
-                string uda_status = await UDA_server_communication.Server_Request(get_status_uda); //stato dell'UDA ottenuto con la classe UDA_server_communication
+                string uda_status = await UDA_server_communication.Server_Request_get(get_status_uda); //stato dell'UDA ottenuto con la classe UDA_server_communication
+                string app_status = await UDA_server_communication.Server_Request_get(get_status_app); //stato dell'UDA ottenuto con la classe UDA_server_communication
                 if (counter_timer == 0) // salvo lo stato dell'UDA al tempo t=0 e la prima volta che cambia
                 {
                     save_status = uda_status;
                     view2.Status_Changed(uda_status, 1); // mostro attraverso la form2 il cambio di stato dell'UDA
-                    string put_server= Url_Put(uda_status); // creo la stringa per il put al server che notifica il cambio di stato dell'UDA
-                    await UDA_server_communication.Server_Request(put_server); // qui mando al server il comando di put per cambiare il suo stato
-                    view2.Status_Changed(uda_status,2); // una volta che il comando è stato mandato, mostro con la form 2 il cambio di stato del server
+                    //string put_server= Url_Put(uda_status); // creo la stringa per il put al server che notifica il cambio di stato dell'UDA
+                  //  await UDA_server_communication.Server_Request(put_server); // qui mando al server il comando di put per cambiare il suo stato
+                    view2.app_Status_Changed(app_status,2); // una volta che il comando è stato mandato, mostro con la form 2 il cambio di stato del server
                     counter_timer++;
                 }
                 else //verifico che lo stato corrente sia diverso dallo stato salvato
@@ -64,9 +66,9 @@ namespace UDA_Status_PROJECT
                     {
                         counter_timer = 0;
                         view2.Status_Changed(uda_status, 1);
-                        string put_server= Url_Put(uda_status);
-                        await UDA_server_communication.Server_Request(put_server);
-                        view2.Status_Changed(uda_status, 2);
+                        //string put_server= Url_Put(uda_status);
+                       // await UDA_server_communication.Server_Request(put_server);
+                        view2.app_Status_Changed(app_status, 2);
                     }
                 }               
             }
@@ -83,8 +85,9 @@ namespace UDA_Status_PROJECT
         public string Url_Put(string k)
         {
             int ik = Int32.Parse(k);
-            if (ik >= 0 && ik < 8)
-                return "https://www.sagosoft.it/_API_/cpim/luda/www/luda_20200901_0900//api/uda/put/?i=" + UDA_index1 + "&k=" + ik.ToString();
+            if (ik >= 0 )//&& ik < 8) //Questo c'era prima l'ho tolto per le prove
+                //return "https://www.sagosoft.it/_API_/cpim/luda/www/luda_20210111_1500//api/app/get/?i=" + UDA_index1;
+            return "https://www.sagosoft.it/_API_/cpim/luda/www/luda_20210111_1500//api/uda/put/?i=" + UDA_index1 + "&k=" + ik.ToString();
             else
                 return "";
         }
