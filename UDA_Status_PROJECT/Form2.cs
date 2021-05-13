@@ -157,11 +157,6 @@ namespace UDA_Status_PROJECT
             }
           
         }
-        public string create_string_put_uda(int k)
-        {
-            string get_put_uda = "https://www.sagosoft.it/_API_/cpim/luda/www/luda_20210111_1500//api/uda/put/?i=" + UDA_index + "&k=" + k.ToString();
-            return get_put_uda;
-        }
         private void app_setSelection(int k)
         {
             if (k >= 0)
@@ -209,7 +204,7 @@ namespace UDA_Status_PROJECT
             {
                 string uda_change = await UDA_server_communication.Server_Request(put);
                 Status_Changed(uda_change, 1);
-                app_Status_Changed(uda_change, 2);
+                //app_Status_Changed(uda_change, 2);
             }
             catch (Exception ex)
             {
@@ -224,7 +219,7 @@ namespace UDA_Status_PROJECT
             {
                 string uda_change= await UDA_server_communication.Server_Request(put);
                 Status_Changed(uda_change, 1);
-                app_Status_Changed(uda_change, 2);
+                //app_Status_Changed(uda_change, 2);
             }
             catch (Exception ex)
             {
@@ -296,7 +291,7 @@ namespace UDA_Status_PROJECT
             {
                 string uda_change = await UDA_server_communication.Server_Request(put);
                 app_Status_Changed(uda_change, 2);
-                Status_Changed(uda_change, 1);
+                //Status_Changed(uda_change, 1);
             }
             catch (Exception ex)
             {
@@ -367,7 +362,7 @@ namespace UDA_Status_PROJECT
 
         private async void button11_Click(object sender, EventArgs e)
         {
-            string put = "https://www.sagosoft.it/_API_/cpim/luda/www/luda_20210111_1500//api/uda/put/?i=1" + UDA_index + "&k=18";
+            string put = "https://www.sagosoft.it/_API_/cpim/luda/www/luda_20210111_1500//api/uda/put/?i=" + UDA_index + "&k=18";
             try
             {
                 string uda_change = await UDA_server_communication.Server_Request(put);
